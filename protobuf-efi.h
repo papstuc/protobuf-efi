@@ -200,6 +200,8 @@ size_t foo__bar__baz_bah__pack_to_buffer
 #include <stddef.h>
 #include <stdint.h>
 
+#define assert(expression) ((void)0)
+
 #ifdef __cplusplus
 # define PROTOBUF_C__BEGIN_DECLS	extern "C" {
 # define PROTOBUF_C__END_DECLS		}

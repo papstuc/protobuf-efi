@@ -45,15 +45,13 @@
  * \todo Use size_t consistently.
  */
 
-#include "protobuf.h"
+#include "protobuf-efi.h"
 
 #include <Uefi.h>
 #include <Library/UefiLib.h>
 #include <Library/MemoryAllocationLib.h>
 #include <Library/BaseMemoryLib.h>
 #include <stdbool.h>
-
-#define assert(expression) ((void)0)
 
 #define PROTOBUF_C__ASSERT_NOT_REACHED() assert(0)
 
@@ -735,6 +733,8 @@ size_t protobuf_c_message_get_packed_size(const ProtobufCMessage *message)
 
 	ASSERT_IS_MESSAGE(message);
 	for (i = 0; i < message->descriptor->n_fields; i++) {
+		Print(L"field\n");
+
 		const ProtobufCFieldDescriptor *field =
 			message->descriptor->fields + i;
 		const void *member =
@@ -744,6 +744,7 @@ size_t protobuf_c_message_get_packed_size(const ProtobufCMessage *message)
 
 		if (field->label == PROTOBUF_C_LABEL_REQUIRED) {
 			rv += required_field_get_packed_size(field, member);
+					Print(L"PROTOBUF_C_LABEL_REQUIRED\n");
 		} else if ((field->label == PROTOBUF_C_LABEL_OPTIONAL ||
 			    field->label == PROTOBUF_C_LABEL_NONE) &&
 			   (0 != (field->flags & PROTOBUF_C_FIELD_FLAG_ONEOF))) {
@@ -752,26 +753,34 @@ size_t protobuf_c_message_get_packed_size(const ProtobufCMessage *message)
 				*(const uint32_t *) qmember,
 				member
 			);
+
+								Print(L"PROTOBUF_C_LABEL_OPTIONAL\n");
 		} else if (field->label == PROTOBUF_C_LABEL_OPTIONAL) {
 			rv += optional_field_get_packed_size(
 				field,
 				*(protobuf_c_boolean *) qmember,
 				member
 			);
+				Print(L"PROTOBUF_C_LABEL_OPTIONAL 2\n");
 		} else if (field->label == PROTOBUF_C_LABEL_NONE) {
 			rv += unlabeled_field_get_packed_size(
 				field,
 				member
 			);
+
+			Print(L"PROTOBUF_C_LABEL_NONE\n");
 		} else {
 			rv += repeated_field_get_packed_size(
 				field,
 				*(const size_t *) qmember,
 				member
 			);
+
+			Print(L"else\n");
 		}
 	}
 	for (i = 0; i < message->n_unknown_fields; i++)
+		Print(L"unknown field\n");
 		rv += unknown_field_get_packed_size(&message->unknown_fields[i]);
 	return rv;
 }

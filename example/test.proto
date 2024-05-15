@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message proto_test
+{
+    uint32 size = 2;
+}
