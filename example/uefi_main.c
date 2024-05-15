@@ -5,7 +5,7 @@
 
 #include "test.pb-c.h"
 
-EFI_STATUS EFIAPI uefi_entry(EFI_HANDLE image_handle, EFI_SYSTEM_TABLE* system_table)
+EFI_STATUS EFIAPI uefi_main(EFI_HANDLE image_handle, EFI_SYSTEM_TABLE* system_table)
 {
     ProtoTest proto_test;
     proto_test__init(&proto_test);
@@ -27,7 +27,7 @@ EFI_STATUS EFIAPI uefi_entry(EFI_HANDLE image_handle, EFI_SYSTEM_TABLE* system_t
         return EFI_ABORTED;
     }
 
-    Print(L"unpacked size: %llu\n", unpacked_proto_test->size);
+    Print(L"unpacked size: %u\n", unpacked_proto_test->size);
 
     proto_test__free_unpacked(unpacked_proto_test, 0);
     FreePool(packed_buffer);
