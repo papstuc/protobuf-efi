@@ -56,7 +56,7 @@ static const ProtobufCFieldDescriptor proto_test__field_descriptors[1] =
 {
   {
     "size",
-    2,
+    1,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_UINT32,
     0,   /* quantifier_offset */
@@ -72,7 +72,7 @@ static const unsigned proto_test__field_indices_by_name[] = {
 };
 static const ProtobufCIntRange proto_test__number_ranges[1 + 1] =
 {
-  { 2, 0 },
+  { 1, 0 },
   { 0, 1 }
 };
 const ProtobufCMessageDescriptor proto_test__descriptor =
